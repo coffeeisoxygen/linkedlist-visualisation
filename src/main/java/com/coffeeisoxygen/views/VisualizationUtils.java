@@ -1,6 +1,8 @@
 package com.coffeeisoxygen.views;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics2D;
 
 public class VisualizationUtils {
 
@@ -20,5 +22,18 @@ public class VisualizationUtils {
 
         g.drawLine(x2, y2, xArrow1, yArrow1);
         g.drawLine(x2, y2, xArrow2, yArrow2);
+    }
+
+    public static void drawHeadLable(Graphics2D g, int x, int y, String text) {
+        g.setColor(Color.BLACK);
+        g.setFont(new Font("Arial", Font.BOLD, 14));
+        g.drawString(text, x, y);
+    }
+
+
+public static void drawTailLable(Graphics2D g, int x, int y, String text) {
+        g.setColor(Color.BLACK);
+        g.setFont(new Font("Arial", Font.BOLD, 14));
+        g.drawString(text, x, y);
     }
 }

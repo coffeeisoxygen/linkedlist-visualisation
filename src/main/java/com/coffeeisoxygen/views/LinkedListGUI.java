@@ -1,14 +1,29 @@
 package com.coffeeisoxygen.views;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+import com.coffeeisoxygen.classes.mahasiswa.Mahasiswa;
+import com.coffeeisoxygen.classes.nodes.BaseNode;
 
 public class LinkedListGUI {
 
     private JFrame frame;
     private JPanel visualizationPanel;
     private ArrayList<NodePanel> nodes;
+    private JButton addButton;
+    private JButton deleteButton;
+    private JButton updateButton;
+    private JButton clearButton;
 
     public LinkedListGUI() {
         nodes = new ArrayList<>();
@@ -34,36 +49,65 @@ public class LinkedListGUI {
 
         // Panel kontrol
         JPanel controlPanel = new JPanel();
-        JButton addButton = new JButton("Add Node");
-        JButton deleteButton = new JButton("Delete Node");
+        addButton = new JButton("Add Node");
+        deleteButton = new JButton("Delete Node");
+        updateButton = new JButton("Update Node");
+        clearButton = new JButton("Clear All");
         controlPanel.add(addButton);
         controlPanel.add(deleteButton);
-
-        // Action listeners
-        addButton.addActionListener(e -> addNode());
-        deleteButton.addActionListener(e -> removeNode());
+        controlPanel.add(updateButton);
+        controlPanel.add(clearButton);
 
         frame.add(visualizationPanel, BorderLayout.CENTER);
         frame.add(controlPanel, BorderLayout.SOUTH);
         frame.setVisible(true);
     }
 
-    private void addNode() {
-        int id = nodes.size() + 1;
-        NodePanel node = new NodePanel(id);
-        nodes.add(node);
-        visualizationPanel.add(node);
+    public void setAddNodeAction(ActionListener action) {
+        addButton.addActionListener(action);
+    }
+
+    public void setDeleteNodeAction(ActionListener action) {
+        deleteButton.addActionListener(action);
+    }
+
+    public void setUpdateNodeAction(ActionListener action) {
+        updateButton.addActionListener(action);
+    }
+
+    public void setClearAction(ActionListener action) {
+        clearButton.addActionListener(action);
+    }
+
+    public void addNode(BaseNode<?> node) {
+        NodePanel nodePanel = new NodePanel(node);
+        nodes.add(nodePanel);
+        visualizationPanel.add(nodePanel);
         updateNodePositions();
         visualizationPanel.repaint();
     }
 
-    private void removeNode() {
-        if (!nodes.isEmpty()) {
-            NodePanel lastNode = nodes.remove(nodes.size() - 1);
-            visualizationPanel.remove(lastNode);
-            updateNodePositions();
-            visualizationPanel.repaint();
+    public void removeNode(long nim) {
+        nodes.removeIf(node -> node.getNim() == nim);
+        updateNodePositions();
+        visualizationPanel.repaint();
+    }
+
+    public void updateNode(BaseNode<?> node) {
+        for (NodePanel nodePanel : nodes) {
+            if (nodePanel.getId() == node.getId()) {
+                nodePanel.setName(((Mahasiswa) node.getData()).getName());
+                nodePanel.setNilai(((Mahasiswa) node.getData()).getNilai());
+                break;
+            }
         }
+        visualizationPanel.repaint();
+    }
+
+    public void clearNodes() {
+        nodes.clear();
+        visualizationPanel.removeAll();
+        visualizationPanel.repaint();
     }
 
     private void updateNodePositions() {
@@ -72,7 +116,7 @@ public class LinkedListGUI {
         int spacing = 150;
 
         for (NodePanel node : nodes) {
-            node.setBounds(x, y, 100, 50);
+            node.setBounds(x, y, 140, 50);
             x += spacing;
         }
     }
@@ -93,9 +137,5 @@ public class LinkedListGUI {
             g.drawLine(x1, y1, x2, y2);
             VisualizationUtils.drawArrowHead(g, x1, y1, x2, y2);
         }
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(LinkedListGUI::new);
     }
 }

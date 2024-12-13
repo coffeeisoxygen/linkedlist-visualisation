@@ -1,6 +1,7 @@
 package com.coffeeisoxygen.classes.mahasiswa;
 
 public class Mahasiswa {
+
     private String name;
     private Long nim;
     private int nilai;
@@ -46,10 +47,11 @@ public class Mahasiswa {
 
     @Override
     public String toString() {
-        return "Mahasiswa{" +
-                "name='" + name + 
-                ", nim=" + nim +
-                ", nilai=" + nilai +
-                '}';
+        return "Mahasiswa{"
+                + "name='" + name
+                + ", nim=" + nim
+                + ", nilai=" + nilai
+                + '}';
     }
+
 }

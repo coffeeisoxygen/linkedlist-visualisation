@@ -1,10 +1,10 @@
 package com.coffeeisoxygen.classes.linkedlists.manager;
 
+import com.coffeeisoxygen.classes.linkedlists.LinkedList;
 import com.coffeeisoxygen.classes.linkedlists.category.CircularDoublyLinkedList;
 import com.coffeeisoxygen.classes.linkedlists.category.CircularSingleLinkedList;
 import com.coffeeisoxygen.classes.linkedlists.category.DoublyLinkedList;
 import com.coffeeisoxygen.classes.linkedlists.category.SingleLinkedList;
-import com.coffeeisoxygen.classes.linkedlists.LinkedList;
 import com.coffeeisoxygen.classes.mahasiswa.Mahasiswa;
 import com.coffeeisoxygen.classes.nodes.BaseNode;
 
@@ -58,15 +58,15 @@ public class LinkedListManager {
         }
     }
 
-    public Mahasiswa findMahasiswaByNim(Long nim) {
+    public BaseNode<Mahasiswa> findMahasiswaByNim(Long nim) {
         return findMahasiswaByNim(singleLinkedList, nim);
     }
 
-    private Mahasiswa findMahasiswaByNim(LinkedList<Mahasiswa> list, Long nim) {
+    private BaseNode<Mahasiswa> findMahasiswaByNim(LinkedList<Mahasiswa> list, Long nim) {
         BaseNode<Mahasiswa> current = list.getHead();
         while (current != null) {
             if (current.getData().getNim().equals(nim)) {
-                return current.getData();
+                return current;
             }
             current = current.getNext();
         }
